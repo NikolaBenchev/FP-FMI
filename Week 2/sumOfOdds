@@ -1,0 +1,14 @@
+#lang racket
+(define(helper curr sum max)
+  (if(> curr max)
+     sum
+     (if(= (remainder curr 2) 0)
+        (helper (+ curr 1) sum max)
+      (helper (+ curr 1) (+ sum curr) max)
+      )
+  )
+  )
+(define(sumOdds a b)
+  (helper (min a b) 0 (max a b))
+  )
+(sumOdds 1 7)
