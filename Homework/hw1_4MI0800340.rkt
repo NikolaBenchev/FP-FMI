@@ -51,3 +51,35 @@
 (min-endurance-max-length 583 889)
 (min-endurance-max-length 34 621)
 (min-endurance-max-length 234 651)
+
+
+(define (get-next-prediction-row data)
+  (define (get-next-prediction-row index data)
+    (if (= index (- (length data) 1))
+        0
+        (- (list-ref data (+ index 1)) (list-ref data index)) 
+        )
+  )
+  (map (lambda (a) (get-next-prediction-row a data)) (range (- (length data) 1)))
+  )
+
+(define(sum-predictions strategy data)
+  (define (sum-predictions index data)
+    (if (andmap (lambda (a) (= a 0)) data)
+      0
+      (if(= index 0)
+         (- (list-ref data index) (sum-predictions 0 (get-next-prediction-row data)))
+         (+ (list-ref data index) (sum-predictions (- index 1) (get-next-prediction-row data)))
+         )
+      )
+    )
+  
+  (if (string=? strategy "backwards")
+      (sum-predictions 0 data)
+      (sum-predictions (- (length data) 1) data)
+      )
+  )
+
+(sum-predictions "backwards" (list 10 13 16 21 30 45))
+(sum-predictions "forwards" (list 10 13 16 21 30 45))
+(sum-predictions "backwards" (list 7 9 12 16 21 27 34))
