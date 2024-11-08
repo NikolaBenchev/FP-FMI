@@ -1,0 +1,5 @@
+#lang racket
+
+(define (ordered? list pred))
+
+(ordered? (list 1 2 3 4) >)
